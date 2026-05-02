@@ -9,8 +9,10 @@ import {
 } from "@mui/material";
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     rollNo: "",
     name: "",
@@ -43,7 +45,68 @@ export default function Register() {
   };
 
   const handleRegister = async () => {
-    console.log(form);
+    // 🔍 1. CHECK MISSING FIELDS
+    const missingFields = [];
+
+    if (!form.rollNo) missingFields.push("Roll No");
+    if (!form.name) missingFields.push("Full Name");
+    if (!form.email) missingFields.push("Email");
+    if (!form.phone) missingFields.push("Phone");
+    if (!form.department) missingFields.push("Department");
+    if (form.committees.length === 0) missingFields.push("Committees");
+    if (!form.password) missingFields.push("Password");
+    if (!form.confirmPassword) missingFields.push("Confirm Password");
+
+    if (missingFields.length > 0) {
+      alert("Please fill:\n" + missingFields.join("\n"));
+      return;
+    }
+
+    // 🔐 2. PASSWORD MATCH
+    if (form.password !== form.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    try {
+      // 🚀 3. API CALL
+      const res = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          rollNo: form.rollNo,
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          department: form.department,
+          committees: form.committees,
+          password: form.password,
+        }),
+      });
+
+      const data = await res.json();
+
+      // ❌ ERROR HANDLING
+      if (!res.ok) {
+        if (data.fields) {
+          alert("Missing:\n" + data.fields.join("\n"));
+        } else {
+          alert(data.message || "Registration failed");
+        }
+        return;
+      }
+
+      // ✅ SUCCESS
+      alert("Registration successful!");
+
+      // 🔄 REDIRECT
+      navigate("/home");
+    } catch (err) {
+      console.error(err);
+      alert("Server error. Try again later.");
+    }
   };
 
   const inputStyle = {
@@ -149,6 +212,7 @@ export default function Register() {
             label="Roll No"
             fullWidth
             margin="dense"
+            value={form.rollNo}
             onChange={(e) => setForm({ ...form, rollNo: e.target.value })}
             sx={inputStyle}
             InputLabelProps={{ shrink: true }}
@@ -158,6 +222,7 @@ export default function Register() {
             label="Full Name"
             fullWidth
             margin="dense"
+            value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
             sx={inputStyle}
             InputLabelProps={{ shrink: true }}
@@ -167,6 +232,7 @@ export default function Register() {
             label="Email"
             fullWidth
             margin="dense"
+            value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
             sx={inputStyle}
             InputLabelProps={{ shrink: true }}
@@ -176,6 +242,7 @@ export default function Register() {
             label="Phone"
             fullWidth
             margin="dense"
+            value={form.phone}
             onChange={(e) => setForm({ ...form, phone: e.target.value })}
             sx={inputStyle}
             InputLabelProps={{ shrink: true }}
@@ -190,6 +257,7 @@ export default function Register() {
             SelectProps={{ native: true }}
             onChange={(e) => setForm({ ...form, department: e.target.value })}
             sx={inputStyle}
+            value={form.department}
             InputLabelProps={{ shrink: true }}
           >
             <option value="">Select</option>
@@ -221,10 +289,10 @@ export default function Register() {
           <Typography sx={{ mt: 2, mb: 1, color: "#7F4F24", fontWeight: 600 }}>
             Security
           </Typography>
-
           <TextField
             label="Password"
             type={showPassword ? "text" : "password"}
+            value={form.password}
             fullWidth
             margin="dense"
             onChange={(e) => setForm({ ...form, password: e.target.value })}
@@ -235,9 +303,9 @@ export default function Register() {
           <TextField
             label="Confirm Password"
             type={showPassword ? "text" : "password"}
+            value={form.confirmPassword}
             fullWidth
             margin="dense"
-            value={form.confirmPassword}
             onChange={(e) =>
               setForm({ ...form, confirmPassword: e.target.value })
             }

@@ -1,44 +1,41 @@
-import {Box,Typography,IconButton,Stack,Divider
-} from "@mui/material";
-
-import InstagramIcon from "@mui/icons-material/Instagram";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import EmailIcon from "@mui/icons-material/Email";
+import { Box, Typography, IconButton, Stack, Divider } from "@mui/material";
+import { Instagram, LinkedIn, Email } from "@mui/icons-material";
 
 export default function Footer() {
-return (
+  const socials = [{ Icon: Instagram }, { Icon: LinkedIn }, { Icon: Email }];
+  return (
     <Box
-    sx={{
+      sx={{
         mt: 8,
         background:
-        "linear-gradient(180deg, #936639 0%, #7F4F24 45%, #582F0E 100%)",
+          "linear-gradient(180deg, #936639 0%, #7F4F24 45%, #582F0E 100%)",
         color: "#F5E6CC",
         pt: 5,
         pb: 3,
         px: { xs: 3, md: 10 },
         boxShadow: "0 -4px 20px rgba(0,0,0,0.25)",
-    }}
+      }}
     >
       {/* TOP SECTION */}
-    <Box
+      <Box
         sx={{
-        display: "flex",
-        flexDirection: { xs: "column", md: "row" },
-        justifyContent: "space-between",
-        gap: 5,
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          justifyContent: "space-between",
+          gap: 5,
         }}
-    >
+      >
         {/* LEFT */}
         <Box>
-        <Typography
+          <Typography
             sx={{
-            fontSize: "2rem",
-            fontWeight: 700,
-            fontFamily: "'Times New Roman', serif",
-            letterSpacing: "2px",
-            mb: 1,
+              fontSize: "2rem",
+              fontWeight: 700,
+              fontFamily: "'Times New Roman', serif",
+              letterSpacing: "2px",
+              mb: 1,
             }}
-        >
+          >
             Roobaroo
           </Typography>
 
@@ -49,7 +46,14 @@ return (
               lineHeight: 1.8,
             }}
           >
-            NMITD successfully organized the 14th edition of RoobaRoo on Friday, 6th March 2026, with the inspiring theme “Unnoticed India – Purpose Over Popularity.” The event aimed to celebrate hidden talents, grassroots creativity, and the collaborative spirit of students. RoobaRoo 2026 provided a vibrant platform for students to demonstrate their abilities in leadership, innovation, event planning and management, coordination, communication, and problem-solving.
+            NMITD successfully organized the 14th edition of RoobaRoo on Friday,
+            6th March 2026, with the inspiring theme “Unnoticed India – Purpose
+            Over Popularity.” The event aimed to celebrate hidden talents,
+            grassroots creativity, and the collaborative spirit of students.
+            RoobaRoo 2026 provided a vibrant platform for students to
+            demonstrate their abilities in leadership, innovation, event
+            planning and management, coordination, communication, and
+            problem-solving.
           </Typography>
         </Box>
 
@@ -66,22 +70,24 @@ return (
           </Typography>
 
           <Stack spacing={1}>
-            {["🏠 Home", "🎉 Events", "👥 Committees", "📞 Contact"].map((item) => (
-              <Typography
-                key={item}
-                sx={{
-                  cursor: "pointer",
-                  color: "#E6CCB2",
-                  transition: "0.3s",
-                  "&:hover": {
-                    color: "#DDB892",
-                    transform: "translateX(5px)",
-                  },
-                }}
-              >
-                {item}
-              </Typography>
-            ))}
+            {["🏠 Home", "🎉 Events", "👥 Committees", "📞 Contact"].map(
+              (item) => (
+                <Typography
+                  key={item}
+                  sx={{
+                    cursor: "pointer",
+                    color: "#E6CCB2",
+                    transition: "0.3s",
+                    "&:hover": {
+                      color: "#DDB892",
+                      transform: "translateX(5px)",
+                    },
+                  }}
+                >
+                  {item}
+                </Typography>
+              ),
+            )}
           </Stack>
         </Box>
 
@@ -98,36 +104,32 @@ return (
           </Typography>
 
           <Typography sx={{ color: "#E6CCB2", mb: 1 }}>
-            📍 Navinchandra Mehta Institute of Technology and Development 
+            📍 Navinchandra Mehta Institute of Technology and Development
           </Typography>
 
           <Typography sx={{ color: "#E6CCB2", mb: 1 }}>
             📧 ncmat@nmitd.edu.in
           </Typography>
 
-          <Typography sx={{ color: "#E6CCB2" }}>
-            📞 +91 9876543210
-          </Typography>
+          <Typography sx={{ color: "#E6CCB2" }}>📞 +91 9876543210</Typography>
 
           {/* SOCIAL ICONS */}
           <Box sx={{ mt: 2 }}>
-            {[InstagramIcon, LinkedInIcon, EmailIcon].map(
-              (Icon, index) => (
-                <IconButton
-                  key={index}
-                  sx={{
-                    color: "#F5E6CC",
-                    transition: "0.3s",
-                    "&:hover": {
-                      color: "#DDB892",
-                      transform: "translateY(-3px)",
-                    },
-                  }}
-                >
-                  <Icon />
-                </IconButton>
-              )
-            )}
+            {socials.map(({ Icon }, index) => (
+              <IconButton
+                key={index}
+                sx={{
+                  color: "#F5E6CC",
+                  transition: "0.3s",
+                  "&:hover": {
+                    color: "#DDB892",
+                    transform: "translateY(-3px)",
+                  },
+                }}
+              >
+                <Icon />
+              </IconButton>
+            ))}
           </Box>
         </Box>
       </Box>
