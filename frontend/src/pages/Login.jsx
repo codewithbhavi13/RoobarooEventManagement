@@ -7,19 +7,53 @@ import {
   Tabs,
   Tab,
   IconButton,
-  InputAdornment
+  InputAdornment,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
   const [tab, setTab] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const handleLogin = async () => {
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/login", {
+        email,
+        password,
+      });
 
+      // store token + role
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("role", res.data.role);
+
+      alert("Login successful");
+
+      // 🔥 role-based redirect
+      if (res.data.role === "admin") {
+        navigate("/admin");
+      } else if (res.data.role === "head") {
+        navigate("/head");
+      } else {
+        navigate("/member");
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || "Login failed");
+    }
+  };
   return (
-    <Box sx={{ display: "flex", height: "100vh", flexDirection: { xs: "column", md: "row" } }}>
-
+    <Box
+      sx={{
+        display: "flex",
+        height: "100vh",
+        flexDirection: { xs: "column", md: "row" },
+      }}
+    >
       {/* LEFT SIDE */}
       <Box
         sx={{
@@ -29,7 +63,7 @@ export default function LoginPage() {
             "url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f')",
           backgroundSize: "cover",
           backgroundPosition: "center",
-          display: { xs: "none", md: "block" }
+          display: { xs: "none", md: "block" },
         }}
       >
         {/* Gradient Overlay */}
@@ -38,7 +72,7 @@ export default function LoginPage() {
             position: "absolute",
             inset: 0,
             background:
-              "linear-gradient(135deg, rgba(127,79,36,0.8), rgba(147,102,57,0.8))"
+              "linear-gradient(135deg, rgba(127,79,36,0.8), rgba(147,102,57,0.8))",
           }}
         />
 
@@ -58,7 +92,7 @@ export default function LoginPage() {
             alignItems: "center",
             color: "white",
             textAlign: "center",
-            px: 4
+            px: 4,
           }}
         >
           <Typography variant="h3" fontWeight="bold" fontFamily="serif">
@@ -78,7 +112,7 @@ export default function LoginPage() {
           justifyContent: "center",
           alignItems: "center",
           backgroundColor: "#B6AD90",
-          px: 2
+          px: 2,
         }}
       >
         <Paper
@@ -89,12 +123,16 @@ export default function LoginPage() {
           sx={{
             p: 4,
             width: { xs: "100%", sm: 350 },
-            borderRadius: 4
+            borderRadius: 4,
           }}
         >
-
           {/* Title */}
-          <Typography align="center" variant="h5" fontWeight="bold" color="#7F4F24">
+          <Typography
+            align="center"
+            variant="h5"
+            fontWeight="bold"
+            color="#7F4F24"
+          >
             Login
           </Typography>
 
@@ -107,11 +145,11 @@ export default function LoginPage() {
               mb: 2,
               "& .Mui-selected": {
                 color: "#7F4F24",
-                fontWeight: "bold"
+                fontWeight: "bold",
               },
               "& .MuiTabs-indicator": {
-                backgroundColor: "#7F4F24"
-    }
+                backgroundColor: "#7F4F24",
+              },
             }}
           >
             <Tab label="Admin" />
@@ -129,6 +167,8 @@ export default function LoginPage() {
               label={tab === 0 ? "Admin Email" : "Student Email"}
               fullWidth
               margin="normal"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               sx={{ bgcolor: "#fff", borderRadius: 2 }}
             />
 
@@ -137,6 +177,8 @@ export default function LoginPage() {
               type={showPassword ? "text" : "password"}
               fullWidth
               margin="normal"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               sx={{ bgcolor: "#fff", borderRadius: 2 }}
               InputProps={{
                 endAdornment: (
@@ -145,7 +187,7 @@ export default function LoginPage() {
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
-                )
+                ),
               }}
             />
 
@@ -158,15 +200,15 @@ export default function LoginPage() {
                 backgroundColor: "#936639",
                 "&:hover": {
                   backgroundColor: "#7F4F24",
-                  transform: "scale(1.05)"
+                  transform: "scale(1.05)",
                 },
-                transition: "0.3s"
+                transition: "0.3s",
               }}
+              onClick={handleLogin}
             >
               {tab === 0 ? "Admin Login" : "Student Login"}
             </Button>
           </motion.div>
-
         </Paper>
       </Box>
     </Box>
