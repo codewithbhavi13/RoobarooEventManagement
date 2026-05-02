@@ -1,6 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-// import Login from "./pages/Login";
-// import Admin from "./pages/Admin";
 import Head from "./pages/Head";
 import Member from "./pages/Member";
 import Login from "./pages/Login";
@@ -23,4 +21,3 @@ function App() {
   );
 }
 
-export default App;
