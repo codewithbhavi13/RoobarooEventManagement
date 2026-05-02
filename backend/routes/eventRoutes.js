@@ -4,6 +4,8 @@ import {
   getEvents,
   joinEvent,
   getEventById,
+  createReqEventAdmin,
+  acceptEventHeadReq,
 } from "../controllers/eventController.js";
 
 import { auth } from "../middleware/authMiddleware.js";
@@ -24,6 +26,15 @@ router.post(
   allowRoles("member", "head", "admin"),
   joinEvent,
 );
+
+router.post(
+  "/req-event-admin",
+  auth,
+  allowRoles("member"),
+  createReqEventAdmin,
+);
+
+router.post("req-accepted", auth, allowRoles("admin"), acceptEventHeadReq);
 
 // GET SINGLE EVENT
 router.get("/:id", auth, getEventById);

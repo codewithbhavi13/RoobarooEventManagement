@@ -31,13 +31,8 @@ const eventSchema = new mongoose.Schema(
 
     // 👇 Contact info
     head: {
-      name: String,
-      phone: String,
-    },
-
-    coHead: {
-      name: String,
-      phone: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
 
     // 👇 Rules (from your posters)
@@ -55,6 +50,12 @@ const eventSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
+    req: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
   },
   { timestamps: true },
 );
