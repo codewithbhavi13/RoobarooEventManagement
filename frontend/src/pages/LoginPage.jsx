@@ -13,7 +13,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
 import { motion } from "framer-motion";
 
-export default function Login() {
+export default function LoginPage() {
   const [tab, setTab] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
 

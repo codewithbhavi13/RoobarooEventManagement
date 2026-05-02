@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import LoginPage from './pages/LoginPage';
+import Register from './pages/RegistrationPage';
 
 function App() {
   return (
@@ -20,7 +21,8 @@ function App() {
     //     </a>
     //   </header>
     // </div>
-    <LoginPage />
+    //<LoginPage />
+    <Register/>
   );
 }
 
