@@ -1,9 +1,10 @@
 import Event from "../models/Event.js";
+import User from "../models/User.js";
 
 // CREATE EVENT
 export const createEvent = async (req, res) => {
   try {
-    const { title, description, date, time, entryFee } = req.body;
+    const { title, description, date, time, category, entryFee } = req.body;
 
     const event = await Event.create({
       title,
@@ -11,6 +12,7 @@ export const createEvent = async (req, res) => {
       date,
       time,
       entryFee,
+      category,
       createdBy: req.user.id,
     });
 
@@ -168,6 +170,10 @@ export const acceptEventHeadReq = async (req, res) => {
     // 6️⃣ Clear all requests
     event.req = [];
 
+    User.findByIdAndUpdate(userId, { role: "event_head" }, { new: true })
+      .then((user) => console.log(user))
+      .catch((err) => console.error(err));
+
     await event.save();
 
     return res.status(200).json({
@@ -179,5 +185,35 @@ export const acceptEventHeadReq = async (req, res) => {
     return res.status(500).json({
       message: "Server error",
     });
+  }
+};
+
+export const addRule = async (req, res) => {
+  try {
+    const { rule, eventId } = req.body;
+    const { id: userId } = req.user;
+
+    if (!rule || !eventId) {
+      return res.status(400).json({ message: "Rule and eventId are required" });
+    }
+
+    const updatedEvent = await Event.findOneAndUpdate(
+      { _id: eventId, head: userId }, // check event exists + user is head
+      { $push: { rules: rule } }, // add rule to array
+      { new: true, runValidators: true },
+    );
+
+    if (!updatedEvent) {
+      return res.status(404).json({
+        message: "Event not found or you are not authorized",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Rule added successfully",
+      rules: updatedEvent.rules,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
   }
 };
