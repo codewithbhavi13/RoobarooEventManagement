@@ -15,7 +15,7 @@ import { allowRoles } from "../middleware/roleMiddleware.js";
 const router = express.Router();
 
 // CREATE EVENT → only admin + head
-router.post("/create", auth, allowRoles("admin", "event_head"), createEvent);
+router.post("/create", auth, allowRoles("admin"), createEvent);
 
 // GET ALL EVENTS → all logged-in users
 router.get("/", auth, getEvents);
