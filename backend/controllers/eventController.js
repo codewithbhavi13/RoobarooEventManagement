@@ -1,7 +1,7 @@
 import Announcement from "../models/Annoucement.js";
 import Event from "../models/Event.js";
 import User from "../models/User.js";
-
+import mongoose from "mongoose";
 // CREATE EVENT
 export const createEvent = async (req, res) => {
   try {
@@ -211,7 +211,35 @@ export const acceptEventHeadReq = async (req, res) => {
     });
   }
 };
+export const updateFee = async (req, res) => {
+  try {
+    const { eventId, fee } = req.body;
+    const { id: userId } = req.user;
 
+    const updatedEvent = await Event.findOneAndUpdate(
+      {
+        _id: eventId,
+        head: new mongoose.Types.ObjectId(userId), // 🔥 FIX
+      },
+      { entryFee: Number(fee) }, // 🔥 ensure number
+      { new: true },
+    );
+
+    if (!updatedEvent) {
+      return res.status(403).json({
+        message: "Not authorized (only event head allowed)",
+      });
+    }
+
+    res.json({
+      message: "Fee updated successfully",
+      entryFee: updatedEvent.entryFee,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+};
 export const addRule = async (req, res) => {
   try {
     const { rule, eventId } = req.body;
