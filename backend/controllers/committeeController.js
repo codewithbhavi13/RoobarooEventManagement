@@ -1,11 +1,5 @@
 import User from "../models/User.js";
 
-const committeeToReq = {
-  Technical: "technical_committee_head",
-  Creativity: "creativity_committee_head",
-  "Social Media": "socialmedia_committee_head",
-};
-
 const committeeToRole = {
   Technical: "technical_committee_head",
   Creativity: "creativity_committee_head",

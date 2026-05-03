@@ -5,6 +5,7 @@ import cors from "cors";
 import authRoutes from "./routes/authRouter.js";
 import eventRoutes from "./routes/eventRoutes.js";
 import committeeRoutes from "./routes/committeeRoutes.js";
+import taskRoutes from "./routes/taskRouter.js";
 dotenv.config();
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(cors());
 app.use("/api/auth", authRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/committee", committeeRoutes);
+app.use("/api/task", taskRoutes);
 
 app.get("/", (req, res) => {
   res.send("Server is running");
