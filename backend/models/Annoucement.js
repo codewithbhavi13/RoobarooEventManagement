@@ -18,6 +18,11 @@ const announcementSchema = new mongoose.Schema(
       default: null, // null = global announcement
     },
 
+    venue: {
+      type: String,
+      required: true,
+    },
+
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

@@ -10,9 +10,9 @@ export const createEvent = async (req, res) => {
     const { title, description, category, date, time, venue } = req.body;
 
     // ✅ VALIDATION (prevents 500 crash)
-    if (!title || !category || !date) {
+    if (!title || !category || !date || !venue) {
       return res.status(400).json({
-        message: "Title, Category and Date are required",
+        message: "Title, Category, Venue and Date are required",
       });
     }
 
