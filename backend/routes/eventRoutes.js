@@ -7,6 +7,8 @@ import {
   createReqEventAdmin,
   acceptEventHeadReq,
   addRule,
+  createAnnouncement,
+  getAllAnnouncements,
 } from "../controllers/eventController.js";
 
 import { auth } from "../middleware/authMiddleware.js";
@@ -38,6 +40,14 @@ router.post(
 router.post("/req-accepted", auth, allowRoles("admin"), acceptEventHeadReq);
 
 router.post("/add-rule", auth, allowRoles("event_head"), addRule);
+router.post(
+  "/announcement/create",
+  auth,
+  allowRoles("admin"),
+  createAnnouncement,
+);
+
+router.get("/announcement", auth, getAllAnnouncements);
 
 // GET SINGLE EVENT
 router.get("/:id", auth, getEventById);

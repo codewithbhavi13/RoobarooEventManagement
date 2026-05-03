@@ -1,3 +1,4 @@
+import Announcement from "../models/Annoucement.js";
 import Event from "../models/Event.js";
 import User from "../models/User.js";
 
@@ -215,5 +216,61 @@ export const addRule = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });
+  }
+};
+
+export const createAnnouncement = async (req, res) => {
+  try {
+    const { title, message, eventId } = req.body;
+    const { id } = req.user;
+
+    let event = null;
+
+    // If eventId is provided, check if it exists
+    if (eventId) {
+      const existingEvent = await Event.findById(eventId);
+
+      if (!existingEvent) {
+        return res.status(404).json({
+          message: "Event not found",
+        });
+      }
+
+      event = eventId;
+    }
+
+    const announcement = await Announcement.create({
+      title,
+      message,
+      event, // either eventId or null
+      createdBy: id,
+    });
+
+    res.status(201).json({
+      message: "Announcement created successfully",
+      announcement,
+    });
+  } catch (err) {
+    res.status(500).json({
+      error: err.message,
+    });
+  }
+};
+
+export const getAllAnnouncements = async (req, res) => {
+  try {
+    const announcements = await Announcement.find()
+      .populate("event", "title date")
+      .populate("createdBy", "name email")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      count: announcements.length,
+      announcements,
+    });
+  } catch (err) {
+    res.status(500).json({
+      error: err.message,
+    });
   }
 };
