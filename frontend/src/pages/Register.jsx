@@ -247,7 +247,6 @@ export default function Register() {
             sx={inputStyle}
             InputLabelProps={{ shrink: true }}
           />
-
           {/* DEPARTMENT */}
           <TextField
             select
