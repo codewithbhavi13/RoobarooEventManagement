@@ -24,7 +24,6 @@ export default function Homepage() {
           overflow: "hidden",
         }}
       >
-
         {/* Soft Background Glow */}
         <Box
           sx={{
@@ -38,33 +37,33 @@ export default function Homepage() {
             borderRadius: "50%",
           }}
         />
-<Box
-  sx={{
-    position: "absolute",
+        <Box
+          sx={{
+            position: "absolute",
 
-    // Adjust Size
-    width: "1500px",
-    height: "800px",
+            // Adjust Size
+            width: "1500px",
+            height: "800px",
 
-    // Image
-    backgroundImage: `url(${bgImage})`,
+            // Image
+            backgroundImage: `url(${bgImage})`,
 
-    backgroundSize: "cover",
-    // backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-    // Transparency / Opacity
-    opacity: 0.18,
-    // Optional Blur
-    // filter: "blur(1px)",
-    // Position Behind Text
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    zIndex: 1,
-    // Optional Rounded Shape
-    borderRadius: "25px",
-  }}
-/>
+            backgroundSize: "cover",
+            // backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            // Transparency / Opacity
+            opacity: 0.18,
+            // Optional Blur
+            // filter: "blur(1px)",
+            // Position Behind Text
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 1,
+            // Optional Rounded Shape
+            borderRadius: "25px",
+          }}
+        />
 
         {/* Hero Heading */}
         <Typography
@@ -89,7 +88,7 @@ export default function Homepage() {
         <Typography
           variant="h6"
           sx={{
-            fontFamily:"Times New Roman",
+            fontFamily: "Times New Roman",
             color: "#F5E6CC",
             maxWidth: "800px",
             mt: 1,
@@ -99,7 +98,8 @@ export default function Homepage() {
             zIndex: 1,
           }}
         >
-          Celebrate culture, creativity, and unforgettable experiences through the spirit of Roobaroo.
+          Celebrate culture, creativity, and unforgettable experiences through
+          the spirit of Roobaroo.
         </Typography>
 
         {/* Button

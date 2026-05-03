@@ -6,13 +6,23 @@ import {
   Paper,
   FormControlLabel,
   Checkbox,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
-
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import PersonIcon from "@mui/icons-material/Person";
+import EmailIcon from "@mui/icons-material/Email";
+import PhoneIcon from "@mui/icons-material/Phone";
+import BadgeIcon from "@mui/icons-material/Badge";
+import LockIcon from "@mui/icons-material/Lock";
+
+// import { useNavigate } from "react-router-dom";
 
 export default function Register() {
-  const navigate = useNavigate();
+  //   const navigate = useNavigate();
+
   const [form, setForm] = useState({
     rollNo: "",
     name: "",
@@ -45,70 +55,19 @@ export default function Register() {
   };
 
   const handleRegister = async () => {
-    // 🔍 1. CHECK MISSING FIELDS
-    const missingFields = [];
-
-    if (!form.rollNo) missingFields.push("Roll No");
-    if (!form.name) missingFields.push("Full Name");
-    if (!form.email) missingFields.push("Email");
-    if (!form.phone) missingFields.push("Phone");
-    if (!form.department) missingFields.push("Department");
-    if (form.committees.length === 0) missingFields.push("Committees");
-    if (!form.password) missingFields.push("Password");
-    if (!form.confirmPassword) missingFields.push("Confirm Password");
-
-    if (missingFields.length > 0) {
-      alert("Please fill:\n" + missingFields.join("\n"));
-      return;
-    }
-
-    // 🔐 2. PASSWORD MATCH
-    if (form.password !== form.confirmPassword) {
-      alert("Passwords do not match");
-      return;
-    }
-
-    try {
-      // 🚀 3. API CALL
-      const res = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          rollNo: form.rollNo,
-          name: form.name,
-          email: form.email,
-          phone: form.phone,
-          department: form.department,
-          committees: form.committees,
-          password: form.password,
-        }),
-      });
-
-      const data = await res.json();
-
-      // ❌ ERROR HANDLING
-      if (!res.ok) {
-        if (data.fields) {
-          alert("Missing:\n" + data.fields.join("\n"));
-        } else {
-          alert(data.message || "Registration failed");
-        }
-        return;
-      }
-
-      // ✅ SUCCESS
-      alert("Registration successful!");
-
-      // 🔄 REDIRECT
-      navigate("/login");
-    } catch (err) {
-      console.error(err);
-      alert("Server error. Try again later.");
-    }
+    // const res = await fetch("http://localhost:5000/register", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   },
+    //   body: JSON.stringify(form)
+    // });
+    // const data = await res.json();
+    // // ✅ AUTO LOGIN
+    // localStorage.setItem("user", JSON.stringify(data.user));
+    // // ✅ REDIRECT TO DASHBOARD
+    // navigate("/dashboard");
   };
-
   const inputStyle = {
     "& .MuiOutlinedInput-root": {
       backgroundColor: "#fff",
@@ -135,8 +94,10 @@ export default function Register() {
     "& .MuiInputLabel-root.Mui-focused": {
       color: "#936639",
     },
+    "& .MuiInputAdornment-root": {
+      color: "#582F0E",
+    },
   };
-
   return (
     <Box
       sx={{
@@ -145,7 +106,6 @@ export default function Register() {
         backgroundColor: "#ffffff",
       }}
     >
-      {/* LEFT SIDE */}
       <Box
         sx={{
           flex: 0.8,
@@ -167,8 +127,6 @@ export default function Register() {
           Roobaroo
         </Typography>
       </Box>
-
-      {/* RIGHT SIDE */}
       <Box
         sx={{
           flex: 1.5,
@@ -185,6 +143,7 @@ export default function Register() {
             backgroundColor: "#ffffff",
             color: "#000",
             boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
+            border: "none",
             p: 4,
             borderRadius: "16px",
           }}
@@ -203,7 +162,7 @@ export default function Register() {
             Register
           </Typography>
 
-          {/* BASIC DETAILS */}
+          {/* BASIC INFO */}
           <Typography sx={{ mb: 1, color: "#7F4F24", fontWeight: 600 }}>
             Basic Details
           </Typography>
@@ -212,41 +171,66 @@ export default function Register() {
             label="Roll No"
             fullWidth
             margin="dense"
-            value={form.rollNo}
             onChange={(e) => setForm({ ...form, rollNo: e.target.value })}
             sx={inputStyle}
             InputLabelProps={{ shrink: true }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start" sx={{ mr: 1 }}>
+                  <BadgeIcon sx={{ color: "#582F0E", fontSize: 22 }} />
+                </InputAdornment>
+              ),
+            }}
           />
 
           <TextField
             label="Full Name"
             fullWidth
             margin="dense"
-            value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
             sx={inputStyle}
             InputLabelProps={{ shrink: true }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start" sx={{ mr: 1 }}>
+                  <PersonIcon sx={{ color: "#582F0E", fontSize: 22 }} />
+                </InputAdornment>
+              ),
+            }}
           />
 
           <TextField
             label="Email"
             fullWidth
             margin="dense"
-            value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
             sx={inputStyle}
             InputLabelProps={{ shrink: true }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <EmailIcon sx={{ color: "#7F4F24" }} />
+                </InputAdornment>
+              ),
+            }}
           />
 
           <TextField
             label="Phone"
             fullWidth
             margin="dense"
-            value={form.phone}
             onChange={(e) => setForm({ ...form, phone: e.target.value })}
             sx={inputStyle}
             InputLabelProps={{ shrink: true }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start" sx={{ mr: 1 }}>
+                  <PhoneIcon sx={{ color: "#582F0E", fontSize: 22 }} />
+                </InputAdornment>
+              ),
+            }}
           />
+
           {/* DEPARTMENT */}
           <TextField
             select
@@ -256,7 +240,6 @@ export default function Register() {
             SelectProps={{ native: true }}
             onChange={(e) => setForm({ ...form, department: e.target.value })}
             sx={inputStyle}
-            value={form.department}
             InputLabelProps={{ shrink: true }}
           >
             <option value="">Select</option>
@@ -264,8 +247,8 @@ export default function Register() {
             <option value="MMS">MMS</option>
           </TextField>
 
-          {/* COMMITTEE */}
-          <Typography sx={{ mt: 2, mb: 1, color: "#7F4F24", fontWeight: 600 }}>
+          {/* COMMITTEE SECTION */}
+          <Typography sx={{ mb: 1, color: "#7F4F24", fontWeight: 600 }}>
             Select Committees (Max 2)
           </Typography>
 
@@ -277,6 +260,12 @@ export default function Register() {
                   <Checkbox
                     checked={form.committees.includes(c)}
                     onChange={() => handleCheckbox(c)}
+                    sx={{
+                      color: "#7F4F24",
+                      "&.Mui-checked": {
+                        color: "#936639",
+                      },
+                    }}
                   />
                 }
                 label={c}
@@ -284,35 +273,66 @@ export default function Register() {
             ))}
           </Box>
 
-          {/* PASSWORD */}
-          <Typography sx={{ mt: 2, mb: 1, color: "#7F4F24", fontWeight: 600 }}>
+          {/* PASSWORD SECTION */}
+          <Typography sx={{ mb: 1, color: "#7F4F24", fontWeight: 600 }}>
             Security
           </Typography>
+
           <TextField
             label="Password"
             type={showPassword ? "text" : "password"}
-            value={form.password}
             fullWidth
             margin="dense"
             onChange={(e) => setForm({ ...form, password: e.target.value })}
-            sx={inputStyle}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start" sx={{ mr: 1 }}>
+                  <LockIcon sx={{ color: "#582F0E", fontSize: 22 }} />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => setShowPassword(!showPassword)}>
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
             InputLabelProps={{ shrink: true }}
+            sx={inputStyle}
           />
 
           <TextField
             label="Confirm Password"
             type={showPassword ? "text" : "password"}
-            value={form.confirmPassword}
             fullWidth
             margin="dense"
+            value={form.confirmPassword}
             onChange={(e) =>
-              setForm({ ...form, confirmPassword: e.target.value })
+              setForm({
+                ...form,
+                confirmPassword: e.target.value,
+              })
             }
             sx={inputStyle}
             InputLabelProps={{ shrink: true }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start" sx={{ mr: 1 }}>
+                  <LockIcon sx={{ color: "#582F0E", fontSize: 22 }} />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => setShowPassword(!showPassword)}>
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
 
-          {/* PASSWORD MATCH */}
+          {/* PASSWORD MATCH UI */}
           {form.confirmPassword && (
             <Typography
               sx={{
@@ -341,6 +361,12 @@ export default function Register() {
               fontWeight: 600,
               background: "linear-gradient(180deg, #936639 0%, #7F4F24 100%)",
               color: "#F5E6CC",
+              transition: "0.3s",
+
+              "&:hover": {
+                transform: "translateY(-2px)",
+                background: "linear-gradient(180deg, #A47148 0%, #7F4F24 100%)",
+              },
             }}
             onClick={handleRegister}
           >

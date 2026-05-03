@@ -7,31 +7,22 @@ import {
   ListItemText,
 } from "@mui/material";
 
-// ✅ FIX: Use named imports from the root icons package
 import {
   Dashboard,
   Event,
-  Group,
-  People,
   Assignment,
-  FactCheck,
+  Notifications,
 } from "@mui/icons-material";
 
 import { useNavigate, useLocation } from "react-router-dom";
-
 export default function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ✅ You can safely store the JSX elements directly in the array again
   const menu = [
-    { name: "Dashboard", path: "/admin", icon: <Dashboard /> },
-    { name: "Events", path: "/admin/events", icon: <Event /> },
-    { name: "Committees", path: "/admin/committees", icon: <Group /> },
-    { name: "Participants", path: "/admin/participants", icon: <People /> },
-    { name: "Tasks", path: "/admin/tasks", icon: <Assignment /> },
-    { name: "Attendance", path: "/admin/attendance", icon: <FactCheck /> },
-    { name: "Announcement", path: "/admin/announcement", icon: <FactCheck /> },
+    { name: "Dashboard", path: "/member", icon: <Dashboard /> },
+    { name: "Events", path: "/member/events", icon: <Event /> },
+    { name: "My Requests", path: "/member/requests", icon: <Assignment /> },
   ];
 
   return (
@@ -42,9 +33,33 @@ export default function Sidebar() {
         background: "#582F0E",
         color: "#F5E6CC",
         p: 2,
+        position: "relative", // ✅ IMPORTANT
       }}
     >
-      {/* TITLE / LOGO */}
+      {/* 🔔 NOTIFICATION ICON (TOP RIGHT) */}
+      <Box
+        sx={{
+          position: "absolute",
+          top: 15,
+          right: 15,
+          cursor: "pointer",
+        }}
+        onClick={() => navigate("/member/announcements")}
+      >
+        <Notifications
+          sx={{
+            fontSize: 28,
+            color: "#F5E6CC",
+            "&:hover": {
+              color: "#DDB892",
+              transform: "scale(1.1)",
+            },
+            transition: "0.3s",
+          }}
+        />
+      </Box>
+
+      {/* TITLE */}
       <Typography
         sx={{
           fontSize: "1.6rem",
@@ -53,7 +68,7 @@ export default function Sidebar() {
           textAlign: "center",
         }}
       >
-        Admin Panel
+        Member Panel
       </Typography>
 
       {/* MENU */}
@@ -70,13 +85,10 @@ export default function Sidebar() {
                 mb: 1,
                 px: 2,
                 transition: "0.3s",
-
-                // ACTIVE STYLE
                 background: active ? "#936639" : "transparent",
                 borderLeft: active
                   ? "4px solid #F5E6CC"
                   : "4px solid transparent",
-
                 "&:hover": {
                   background: "#7F4F24",
                   transform: "translateX(5px)",
@@ -89,7 +101,6 @@ export default function Sidebar() {
                   minWidth: "35px",
                 }}
               >
-                {/* ✅ Render the stored icon element here */}
                 {item.icon}
               </ListItemIcon>
 

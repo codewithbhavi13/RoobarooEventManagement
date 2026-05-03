@@ -1,0 +1,67 @@
+what you mean by Committee
+Committee Progress 
+
+
+
+4. Logistics Page of Admin
+UI:
+    • Table of requests 
+Item | Committee | Cost | Status | Action
+Features:
+    • Approve / Reject Explain this
+    • View budget 
+    
+
+Why there is Attendance Page in Commite Members
+
+
+1. Create Event by Admin 
+Title
+Description
+Duration(Time Frame)
+Venue
+Event Head - this will assign by admin when member request for it
+
+2. Commitee
+Mam can assign the commite head.
+
+3. 
+
+3. Request For resources.
+resourceds request for task compeletion.
+
+4. Create Annoucements
+
+5. Create Task
+
+Event Head(ONly for one event)
+1. Dashboard
+2. Participents(List Of Participents)
+3. Create Requirement
+4. Rules(Add Rule)
+5. Event Details
+
+Commitee Head
+1.Social Media Head
+    These are the reply for task which created by admin
+	Created but Not Uploaded
+	Created Uploaded
+	Not Created
+    Members
+2. Creativity Head
+    Members - 
+    Request
+3. Technical Head
+    Members -
+    	list all the members
+    	assign the task.
+
+Members
+Task - 
+
+Create all these Models
+User
+Event
+Task
+Requirements
+Annoucement
