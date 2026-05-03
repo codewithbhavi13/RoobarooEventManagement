@@ -7,7 +7,6 @@ import {
   ListItemText,
 } from "@mui/material";
 
-// ✅ FIX: Use named imports from the root icons package
 import {
   Dashboard,
   Event,
@@ -31,7 +30,6 @@ export default function Sidebar() {
     { name: "Participants", path: "/admin/participants", icon: <People /> },
     { name: "Tasks", path: "/admin/tasks", icon: <Assignment /> },
     { name: "Attendance", path: "/admin/attendance", icon: <FactCheck /> },
-    { name: "Announcement", path: "/admin/announcement", icon: <FactCheck /> },
   ];
 
   return (
