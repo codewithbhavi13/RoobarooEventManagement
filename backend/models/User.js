@@ -43,7 +43,7 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
 
-    //  ROLE
+    // 🔥 UPDATED ROLE
     role: {
       type: String,
       enum: ["admin", "committee_head", "event_head", "member"],
