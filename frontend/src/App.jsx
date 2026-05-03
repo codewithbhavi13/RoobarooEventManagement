@@ -20,6 +20,10 @@ import MemberDashboard from "./pages/member/Dashboard";
 import { Home } from "@mui/icons-material";
 import Announcement from "./pages/admin/Announcement";
 import MemberAnnouncement from "./pages/member/MemberAnnouncement";
+import Ruleshead from "./pages/member/Rules";
+import Participantshead from "./pages/member/Participants";
+import Taskshead from "./pages/member/Tasks";
+import Requirementshead from "./pages/member/Requirements";
 function App() {
   return (
     <>
@@ -42,7 +46,12 @@ function App() {
           <Route index element={<MemberDashboard />} />
           <Route path="events" element={<MemberEvent />} />
           <Route path="requests" element={<MyRequests />} />
-          <Route path="announcements" element={<MemberAnnouncement />} />
+
+          {/* ⭐ EVENT HEAD ROUTES */}
+          <Route path="manage/rules" element={<Ruleshead />} />
+          <Route path="manage/participants" element={<Participantshead />} />
+          <Route path="manage/tasks" element={<Taskshead />} />
+          <Route path="manage/requirements" element={<Requirementshead />} />
         </Route>
       </Routes>
     </>
