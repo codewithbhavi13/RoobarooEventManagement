@@ -1,9 +1,7 @@
 import {Box,Typography,IconButton,Stack,Divider
 } from "@mui/material";
 
-import InstagramIcon from "@mui/icons-material/Instagram";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import EmailIcon from "@mui/icons-material/Email";
+import { Instagram, LinkedIn, Email } from "@mui/icons-material";
 
 export default function Footer() {
 return (
@@ -110,25 +108,52 @@ return (
           </Typography>
 
           {/* SOCIAL ICONS */}
-          <Box sx={{ mt: 2 }}>
-            {[InstagramIcon, LinkedInIcon, EmailIcon].map(
-              (Icon, index) => (
-                <IconButton
-                  key={index}
-                  sx={{
-                    color: "#F5E6CC",
-                    transition: "0.3s",
-                    "&:hover": {
-                      color: "#DDB892",
-                      transform: "translateY(-3px)",
-                    },
-                  }}
-                >
-                  <Icon />
-                </IconButton>
-              )
-            )}
-          </Box>
+          {/* SOCIAL ICONS */}
+<Box sx={{ mt: 2, display: "flex", gap: 1 }}>
+
+  <IconButton
+    sx={{
+      color: "#F5E6CC",
+      transition: "0.3s",
+
+      "&:hover": {
+        color: "#DDB892",
+        transform: "translateY(-3px)",
+      },
+    }}
+  >
+    <Instagram />
+  </IconButton>
+
+  <IconButton
+    sx={{
+      color: "#F5E6CC",
+      transition: "0.3s",
+
+      "&:hover": {
+        color: "#DDB892",
+        transform: "translateY(-3px)",
+      },
+    }}
+  >
+    <LinkedIn />
+  </IconButton>
+
+  <IconButton
+    sx={{
+      color: "#F5E6CC",
+      transition: "0.3s",
+
+      "&:hover": {
+        color: "#DDB892",
+        transform: "translateY(-3px)",
+      },
+    }}
+  >
+    <Email />
+  </IconButton>
+
+</Box>
         </Box>
       </Box>
 
