@@ -46,7 +46,7 @@ function App() {
           <Route index element={<MemberDashboard />} />
           <Route path="events" element={<MemberEvent />} />
           <Route path="requests" element={<MyRequests />} />
-
+          <Route path="notification" element={<MemberAnnouncement />} />
           {/* ⭐ EVENT HEAD ROUTES */}
           <Route path="manage/rules" element={<Ruleshead />} />
           <Route path="manage/participants" element={<Participantshead />} />
