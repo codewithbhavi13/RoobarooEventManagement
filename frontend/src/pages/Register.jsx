@@ -102,7 +102,7 @@ export default function Register() {
       alert("Registration successful!");
 
       // 🔄 REDIRECT
-      navigate("/home");
+      navigate("/login");
     } catch (err) {
       console.error(err);
       alert("Server error. Try again later.");

@@ -7,10 +7,14 @@ import {
   ListItemText,
 } from "@mui/material";
 
-import { Dashboard, Event, Assignment } from "@mui/icons-material";
+import {
+  Dashboard,
+  Event,
+  Assignment,
+  Notifications,
+} from "@mui/icons-material";
 
 import { useNavigate, useLocation } from "react-router-dom";
-
 export default function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,11 +30,35 @@ export default function Sidebar() {
       sx={{
         width: 250,
         minHeight: "100vh",
-        background: "#582F0E", // ✅ same as admin
+        background: "#582F0E",
         color: "#F5E6CC",
         p: 2,
+        position: "relative", // ✅ IMPORTANT
       }}
     >
+      {/* 🔔 NOTIFICATION ICON (TOP RIGHT) */}
+      <Box
+        sx={{
+          position: "absolute",
+          top: 15,
+          right: 15,
+          cursor: "pointer",
+        }}
+        onClick={() => navigate("/member/announcements")}
+      >
+        <Notifications
+          sx={{
+            fontSize: 28,
+            color: "#F5E6CC",
+            "&:hover": {
+              color: "#DDB892",
+              transform: "scale(1.1)",
+            },
+            transition: "0.3s",
+          }}
+        />
+      </Box>
+
       {/* TITLE */}
       <Typography
         sx={{
@@ -57,12 +85,10 @@ export default function Sidebar() {
                 mb: 1,
                 px: 2,
                 transition: "0.3s",
-
                 background: active ? "#936639" : "transparent",
                 borderLeft: active
                   ? "4px solid #F5E6CC"
                   : "4px solid transparent",
-
                 "&:hover": {
                   background: "#7F4F24",
                   transform: "translateX(5px)",

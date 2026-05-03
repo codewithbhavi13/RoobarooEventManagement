@@ -96,6 +96,7 @@ export const register = async (req, res) => {
     });
   }
 };
+// LOGIN
 export const login = async (req, res) => {
   try {
     console.log(req.body);

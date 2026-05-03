@@ -18,6 +18,8 @@ import MemberEvent from "./pages/member/MemberEvent";
 import MyRequests from "./pages/member/MyRequests";
 import MemberDashboard from "./pages/member/Dashboard";
 import { Home } from "@mui/icons-material";
+import Announcement from "./pages/admin/Announcement";
+import MemberAnnouncement from "./pages/member/MemberAnnouncement";
 function App() {
   return (
     <>
@@ -34,11 +36,13 @@ function App() {
           <Route path="participants" element={<Participants />} />
           <Route path="tasks" element={<Tasks />} />
           <Route path="attendance" element={<Attendance />} />
+          <Route path="announcement" element={<Announcement />} />
         </Route>
         <Route path="/member" element={<MemberLayout />}>
           <Route index element={<MemberDashboard />} />
           <Route path="events" element={<MemberEvent />} />
           <Route path="requests" element={<MyRequests />} />
+          <Route path="announcements" element={<MemberAnnouncement />} />
         </Route>
       </Routes>
     </>

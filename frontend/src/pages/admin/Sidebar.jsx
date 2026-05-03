@@ -4,7 +4,7 @@ import {
   List,
   ListItemButton,
   ListItemIcon,
-  ListItemText
+  ListItemText,
 } from "@mui/material";
 
 // ✅ FIX: Use named imports from the root icons package
@@ -14,7 +14,7 @@ import {
   Group,
   People,
   Assignment,
-  FactCheck
+  FactCheck,
 } from "@mui/icons-material";
 
 import { useNavigate, useLocation } from "react-router-dom";
@@ -31,6 +31,7 @@ export default function Sidebar() {
     { name: "Participants", path: "/admin/participants", icon: <People /> },
     { name: "Tasks", path: "/admin/tasks", icon: <Assignment /> },
     { name: "Attendance", path: "/admin/attendance", icon: <FactCheck /> },
+    { name: "Announcement", path: "/admin/announcement", icon: <FactCheck /> },
   ];
 
   return (
