@@ -38,6 +38,15 @@ const userSchema = new mongoose.Schema(
       },
     },
 
+    req: {
+      type: String,
+      enum: [
+        "socialmedia_committee_head",
+        "technical_committee_head",
+        "creativity_committee_head",
+      ],
+    },
+
     password: {
       type: String,
       required: true,
@@ -46,7 +55,14 @@ const userSchema = new mongoose.Schema(
     // 🔥 UPDATED ROLE
     role: {
       type: String,
-      enum: ["admin", "committee_head", "event_head", "member"],
+      enum: [
+        "admin",
+        "socialmedia_committee_head",
+        "technical_committee_head",
+        "creativity_committee_head",
+        "event_head",
+        "member",
+      ],
       default: "member",
     },
   },

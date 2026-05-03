@@ -16,7 +16,7 @@ Why there is Attendance Page in Commite Members
 
 
 1. Create Event by Admin 
-Title
+Title-
 Description
 Duration(Time Frame)
 Venue
