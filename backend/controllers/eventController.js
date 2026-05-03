@@ -5,15 +5,32 @@ import User from "../models/User.js";
 // CREATE EVENT
 export const createEvent = async (req, res) => {
   try {
-    const { title, description, date, time, category, entryFee } = req.body;
+    console.log("BODY:", req.body); // 🔍 debug
 
+    const { title, description, category, date, time, venue } = req.body;
+
+    // ✅ VALIDATION (prevents 500 crash)
+    if (!title || !category || !date) {
+      return res.status(400).json({
+        message: "Title, Category and Date are required",
+      });
+    }
+
+    // ✅ CHECK USER (safety)
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({
+        message: "Unauthorized user",
+      });
+    }
+
+    // ✅ CREATE EVENT (date fix applied)
     const event = await Event.create({
       title,
       description,
-      date,
-      time,
-      entryFee,
       category,
+      date: new Date(date), // ⭐ IMPORTANT FIX
+      time,
+      venue,
       createdBy: req.user.id,
     });
 
@@ -22,7 +39,11 @@ export const createEvent = async (req, res) => {
       event,
     });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("CREATE EVENT ERROR:", err); // 🔥 shows exact issue
+    res.status(500).json({
+      message: "Server error while creating event",
+      error: err.message,
+    });
   }
 };
 
@@ -31,6 +52,8 @@ export const getEvents = async (req, res) => {
   try {
     const events = await Event.find()
       .populate("createdBy", "name role")
+      .populate("req", "name email") // 🔥 ADD THIS
+      .populate("head", "name")
       .sort({ createdAt: -1 });
 
     res.json(events);

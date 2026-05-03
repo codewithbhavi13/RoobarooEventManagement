@@ -7,31 +7,53 @@ import {
   ListItemText,
 } from "@mui/material";
 
-// ✅ FIX: Use named imports from the root icons package
 import {
   Dashboard,
   Event,
-  Group,
-  People,
   Assignment,
-  FactCheck,
+  Notifications,
+  Rule,
+  Group,
+  Task,
+  Star,
 } from "@mui/icons-material";
 
 import { useNavigate, useLocation } from "react-router-dom";
 
-export default function Sidebar() {
+export default function Sidebar({ isHead }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ✅ You can safely store the JSX elements directly in the array again
   const menu = [
-    { name: "Dashboard", path: "/admin", icon: <Dashboard /> },
-    { name: "Events", path: "/admin/events", icon: <Event /> },
-    { name: "Committees", path: "/admin/committees", icon: <Group /> },
-    { name: "Participants", path: "/admin/participants", icon: <People /> },
-    { name: "Tasks", path: "/admin/tasks", icon: <Assignment /> },
-    { name: "Attendance", path: "/admin/attendance", icon: <FactCheck /> },
-    { name: "Announcement", path: "/admin/announcement", icon: <FactCheck /> },
+    { name: "Dashboard", path: "/member", icon: <Dashboard /> },
+    { name: "Events", path: "/member/events", icon: <Event /> },
+    { name: "My Requests", path: "/member/requests", icon: <Assignment /> },
+
+    // ⭐ EVENT HEAD MENU
+    ...(isHead
+      ? [
+          {
+            name: "Rules & Fees",
+            path: "/member/manage/rules",
+            icon: <Rule />,
+          },
+          {
+            name: "Participants",
+            path: "/member/manage/participants",
+            icon: <Group />,
+          },
+          {
+            name: "Tasks",
+            path: "/member/manage/tasks",
+            icon: <Task />,
+          },
+          {
+            name: "Requirements",
+            path: "/member/manage/requirements",
+            icon: <Star />,
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -42,9 +64,32 @@ export default function Sidebar() {
         background: "#582F0E",
         color: "#F5E6CC",
         p: 2,
+        position: "relative",
       }}
     >
-      {/* TITLE / LOGO */}
+      {/* 🔔 NOTIFICATION ICON */}
+      <Box
+        sx={{
+          position: "absolute",
+          top: 15,
+          right: 15,
+          cursor: "pointer",
+        }}
+        onClick={() => navigate("/member/notification")} // ✅ FIXED
+      >
+        <Notifications
+          sx={{
+            fontSize: 28,
+            color: "#F5E6CC",
+            "&:hover": {
+              color: "#DDB892",
+              transform: "scale(1.1)",
+            },
+          }}
+        />
+      </Box>
+
+      {/* TITLE */}
       <Typography
         sx={{
           fontSize: "1.6rem",
@@ -53,7 +98,7 @@ export default function Sidebar() {
           textAlign: "center",
         }}
       >
-        Admin Panel
+        Member Panel
       </Typography>
 
       {/* MENU */}
@@ -69,14 +114,10 @@ export default function Sidebar() {
                 borderRadius: "10px",
                 mb: 1,
                 px: 2,
-                transition: "0.3s",
-
-                // ACTIVE STYLE
                 background: active ? "#936639" : "transparent",
                 borderLeft: active
                   ? "4px solid #F5E6CC"
                   : "4px solid transparent",
-
                 "&:hover": {
                   background: "#7F4F24",
                   transform: "translateX(5px)",
@@ -89,7 +130,6 @@ export default function Sidebar() {
                   minWidth: "35px",
                 }}
               >
-                {/* ✅ Render the stored icon element here */}
                 {item.icon}
               </ListItemIcon>
 
