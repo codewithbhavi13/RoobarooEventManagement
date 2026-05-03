@@ -3,6 +3,7 @@ import Navbar from "../Component/Navbar";
 import bgImage from "../assets/Roobaroo.jpeg";
 import Footer from "../Component/Footer";
 import EventCard from "../Component/EventCard.jsx"; 
+import ParticipantForm from "../Component/ParticipantForm";
 
 export default function Homepage() {
   return (
@@ -53,27 +54,17 @@ export default function Homepage() {
         <Box
           sx={{
             position: "absolute",
-
             width: "1500px",
-            height: "800px",
-
+            height: "900px",
             backgroundImage: `url(${bgImage})`,
-
             backgroundSize: "cover",
-
             backgroundPosition: "center",
-
             backgroundRepeat: "no-repeat",
-
             opacity: 0.18,
-
-            top: "50%",
+            top: "70%",
             left: "50%",
-
             transform: "translate(-50%, -50%)",
-
             zIndex: 1,
-
             borderRadius: "25px",
           }}
         />
@@ -84,17 +75,11 @@ export default function Homepage() {
           gutterBottom
           sx={{
             fontFamily: "'Times New Roman', serif",
-
             fontWeight: 700,
-
             color: "#7F4F24",
-
             letterSpacing: "1px",
-
             maxWidth: "900px",
-
             px: 2,
-
             zIndex: 2,
           }}
         >
@@ -106,18 +91,12 @@ export default function Homepage() {
           variant="h6"
           sx={{
             fontFamily: "'Times New Roman', serif",
-
             color: "#F5E6CC",
-
             maxWidth: "800px",
-
             mt: 1,
             mb: 6,
-
             lineHeight: 1.8,
-
             letterSpacing: "1px",
-
             zIndex: 2,
           }}
         >
@@ -126,15 +105,25 @@ export default function Homepage() {
         </Typography>
 
       </Box>
+{/* EVENT SECTION */}
 <Box
   sx={{
+    mt: 6, // space from hero section
     py: 8,
+    px: 4,
     display: "flex",
     justifyContent: "center",
+    alignItems: "center",
     background:
       "linear-gradient(180deg, #B6AD90 0%, #DDB892 100%)",
+    borderTopLeftRadius: "20px",
+    borderTopRightRadius: "20px",
+    borderBottomRightRadius: "20px",
+    borderBottomLeftRadius: "20px",
+
+    boxShadow: "0 -4px 20px rgba(0,0,0,0.08)",
   }}
-   >
+>
   <EventCard
     event={{
       image: bgImage,
@@ -145,7 +134,28 @@ export default function Homepage() {
       category: "Cultural",
     }}
   />
-    </Box>
+</Box>
+    {/* PARTICIPANT FORM SECTION */}
+<Box
+  sx={{
+    mt: 5, // space between EventCard section and Form section
+
+    py: 8,
+    px: 3,
+
+    background:
+       "linear-gradient(135deg, #582F0E 0%, #7F4F24 50%, #936639 100%)",
+
+    borderTopLeftRadius: "10px",
+    borderTopRightRadius: "10px",
+    borderBottomRightRadius: "20px",
+    borderBottomLeftRadius: "20px",
+
+    boxShadow: "0 -4px 20px rgba(0,0,0,0.08)",
+  }}
+>
+  <ParticipantForm />
+</Box>
       <Footer />
     </>
   );
