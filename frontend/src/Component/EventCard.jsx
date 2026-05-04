@@ -416,40 +416,146 @@ import {
   Typography,
   Button,
   Box,
+  Chip,
+  Divider,
 } from "@mui/material";
+import { 
+  CalendarMonth, 
+  CurrencyRupee, 
+  ArrowForwardIos,
+  EmojiEvents 
+} from "@mui/icons-material";
+
+/**
+ * PREVIOUS EVOLUTION NOTES (From Comments):
+ * 1. Initial version: Direct navigation to event page.
+ * 2. Second version: Introduced setOpen(true) for local modal handling.
+ * 3. Third version: Unified with Homepage via onView callback for better state flow.
+ */
 
 export default function EventCard({ event, onView }) {
   return (
     <Card
       sx={{
         width: 320,
-        borderRadius: "18px",
+        borderRadius: "24px", // Smoother corners
         overflow: "hidden",
-        boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
-        transition: "0.3s",
-        background: "#fff",
+        boxShadow: "0 10px 40px rgba(127, 79, 36, 0.08)", // Softer, themed shadow
+        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+        background: "#ffffff",
+        border: "1px solid rgba(127, 79, 36, 0.05)",
         "&:hover": {
-          transform: "translateY(-6px)",
-          boxShadow: "0 12px 30px rgba(0,0,0,0.18)",
+          transform: "translateY(-12px)", // Pronounced lift
+          boxShadow: "0 20px 40px rgba(127, 79, 36, 0.15)",
         },
       }}
     >
-      <CardMedia component="img" height="200" image={event.image} />
+      {/* IMAGE CONTAINER WITH CATEGORY OVERLAY */}
+      <Box sx={{ position: "relative" }}>
+        <CardMedia
+          component="img"
+          height="180"
+          image={event.image || "https://via.placeholder.com/320x180"}
+          alt={event.title}
+          sx={{ filter: "brightness(0.95)" }}
+        />
+        <Chip
+          label={event.category}
+          size="small"
+          sx={{
+            position: "absolute",
+            top: 15,
+            right: 15,
+            bgcolor: "rgba(255, 255, 255, 0.9)",
+            color: "#7F4F24",
+            fontWeight: 700,
+            backdropFilter: "blur(4px)",
+            borderRadius: "8px",
+            boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+          }}
+        />
+      </Box>
 
-      <CardContent>
-        <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
-          {event.title}
-        </Typography>
-
-        <Typography sx={{ mb: 2 }}>{event.description}</Typography>
-
-        <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
-          <Typography>{new Date(event.date).toLocaleDateString()}</Typography>
-          <Typography>₹{event.entryFee || 0}</Typography>
-          <Typography>{event.category}</Typography>
+      <CardContent sx={{ p: 3 }}>
+        {/* TITLE & PRICE ROW */}
+        <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={1.5}>
+          <Typography
+            variant="h6"
+            sx={{
+              fontWeight: 800,
+              color: "#3A2D1E",
+              lineHeight: 1.2,
+              flex: 1,
+              pr: 1
+            }}
+          >
+            {event.title}
+          </Typography>
+          <Box display="flex" alignItems="center" sx={{ color: "#7F4F24" }}>
+            <CurrencyRupee sx={{ fontSize: "1rem" }} />
+            <Typography variant="h6" fontWeight={900}>
+              {event.entryFee || "Free"}
+            </Typography>
+          </Box>
         </Box>
 
-        <Button fullWidth variant="contained" onClick={() => onView(event._id)}>
+        {/* DESCRIPTION */}
+        <Typography
+          variant="body2"
+          sx={{
+            color: "text.secondary",
+            mb: 2.5,
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+            height: "40px",
+          }}
+        >
+          {event.description}
+        </Typography>
+
+        <Divider sx={{ mb: 2, opacity: 0.6 }} />
+
+        {/* DATE & LOGISTICS */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            mb: 3,
+            color: "#936639",
+          }}
+        >
+          <CalendarMonth sx={{ fontSize: "1.1rem" }} />
+          <Typography variant="body2" fontWeight={600}>
+            {new Date(event.date).toLocaleDateString("en-IN", {
+              day: "numeric",
+              month: "short",
+              year: "numeric",
+            })}
+          </Typography>
+        </Box>
+
+        {/* VIEW DETAILS BUTTON */}
+        <Button
+          fullWidth
+          variant="contained"
+          onClick={() => onView(event._id)}
+          endIcon={<ArrowForwardIos sx={{ fontSize: "10px !important" }} />}
+          sx={{
+            borderRadius: "15px",
+            py: 1.5,
+            fontWeight: 700,
+            textTransform: "none",
+            bgcolor: "#7F4F24",
+            boxShadow: "0 6px 20px rgba(127, 79, 36, 0.2)",
+            "&:hover": {
+              bgcolor: "#5E4023",
+              boxShadow: "none",
+            },
+          }}
+        >
           View Details
         </Button>
       </CardContent>
