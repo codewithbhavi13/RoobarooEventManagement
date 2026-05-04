@@ -1,136 +1,309 @@
-import { Typography, Box, Button } from "@mui/material";
+// // import { Typography, Box } from "@mui/material";
+// // import Navbar from "../Component/Navbar";
+// // import bgImage from "../assets/Roobaroo.jpeg";
+// // import Footer from "../Component/Footer";
+// // import { useEffect, useState } from "react";
+// // import axios from "axios";
+// // import EventCard from "../Component/EventCard";
+// // import ParticipantForm from "../Component/ParticipantForm";
+
+// // export default function Homepage() {
+// //   const [events, setEvents] = useState([]);
+// //   const [selectedEventId, setSelectedEventId] = useState(null); // ✅ ADD THIS
+
+// //   useEffect(() => {
+// //     fetchEvents();
+// //   }, []);
+
+// //   const fetchEvents = async () => {
+// //     try {
+// //       const token = localStorage.getItem("token");
+
+// //       const res = await axios.get("http://localhost:5000/api/events", {
+// //         headers: {
+// //           Authorization: `Bearer ${token}`,
+// //         },
+// //       });
+
+// //       setEvents(res.data);
+// //     } catch (err) {
+// //       console.error(err);
+// //     }
+// //   };
+
+// //   return (
+// //     <>
+// //       <Navbar />
+
+// //       {/* HERO */}
+// //       <Box
+// //         sx={{
+// //           height: "90vh",
+// //           display: "flex",
+// //           flexDirection: "column",
+// //           justifyContent: "center",
+// //           alignItems: "center",
+// //           textAlign: "center",
+// //           background:
+// //             "linear-gradient(180deg, #F5E6CC 0%, #DDB892 45%, #B6AD90 100%)",
+// //           position: "relative",
+// //           overflow: "hidden",
+// //         }}
+// //       >
+// //         <Box
+// //           sx={{
+// //             position: "absolute",
+// //             width: "500px",
+// //             height: "500px",
+// //             background:
+// //               "radial-gradient(circle, rgba(201,107,44,0.18) 0%, rgba(255,255,255,0) 70%)",
+// //             top: "-120px",
+// //             right: "-100px",
+// //             borderRadius: "50%",
+// //           }}
+// //         />
+
+// //         <Box
+// //           sx={{
+// //             position: "absolute",
+// //             width: "1500px",
+// //             height: "800px",
+// //             backgroundImage: `url(${bgImage})`,
+// //             backgroundSize: "cover",
+// //             backgroundRepeat: "no-repeat",
+// //             opacity: 0.18,
+// //             top: "50%",
+// //             left: "50%",
+// //             transform: "translate(-50%, -50%)",
+// //             zIndex: 1,
+// //             borderRadius: "25px",
+// //           }}
+// //         />
+
+// //         <Typography
+// //           variant="h3"
+// //           sx={{
+// //             fontFamily: "'Times New Roman', serif",
+// //             fontWeight: 700,
+// //             color: "#7F4F24",
+// //             zIndex: 2,
+// //           }}
+// //         >
+// //           RooBaRoo — Where Every Moment Becomes a Memory
+// //         </Typography>
+
+// //         <Typography
+// //           variant="h6"
+// //           sx={{
+// //             color: "#F5E6CC",
+// //             mt: 2,
+// //             zIndex: 2,
+// //           }}
+// //         >
+// //           Celebrate culture, creativity, and unforgettable experiences.
+// //         </Typography>
+// //       </Box>
+
+// //       {/* EVENTS SECTION */}
+// //       <Box sx={{ p: 5, background: "#FDFCFB" }}>
+// //         <Typography
+// //           variant="h4"
+// //           fontWeight={800}
+// //           textAlign="center"
+// //           mb={4}
+// //           color="#582F0E"
+// //         >
+// //           Explore Events
+// //         </Typography>
+
+// //         <Box
+// //           sx={{
+// //             display: "flex",
+// //             flexWrap: "wrap",
+// //             gap: 4,
+// //             justifyContent: "center",
+// //           }}
+// //         >
+// //           {events.length === 0 ? (
+// //             <Typography>No events available</Typography>
+// //           ) : (
+// //             events.map((event) => (
+// //               <EventCard
+// //                 key={event._id}
+// //                 event={event}
+// //                 onRegister={(id) => setSelectedEventId(id)} // ✅ IMPORTANT
+// //               />
+// //             ))
+// //           )}
+// //         </Box>
+// //       </Box>
+
+// //       {/* ✅ FORM SHOW BELOW EVENTS */}
+// //       {selectedEventId && (
+// //         <Box sx={{ px: 3, pb: 5 }}>
+// //           <ParticipantForm eventId={selectedEventId} />
+// //         </Box>
+// //       )}
+
+// //       <Footer />
+// //     </>
+// //   );
+// // }
+
+// import { Typography, Box } from "@mui/material";
+// import Navbar from "../Component/Navbar";
+// import Footer from "../Component/Footer";
+// import { useEffect, useState } from "react";
+// import axios from "axios";
+// import EventCard from "../Component/EventCard";
+// import EventDetailsModal from "../Component/EventDetailsModel";
+// import ParticipantForm from "../Component/ParticipantForm";
+
+// export default function Homepage() {
+//   const [events, setEvents] = useState([]);
+//   const [selectedEventId, setSelectedEventId] = useState(null);
+//   const [modalEventId, setModalEventId] = useState(null);
+
+//   useEffect(() => {
+//     fetchEvents();
+//   }, []);
+
+//   const fetchEvents = async () => {
+//     const token = localStorage.getItem("token");
+//     const res = await axios.get("http://localhost:5000/api/events", {
+//       headers: { Authorization: `Bearer ${token}` },
+//     });
+//     setEvents(res.data);
+//   };
+
+//   return (
+//     <>
+//       <Navbar />
+
+//       {/* EVENTS */}
+//       <Box sx={{ p: 5 }}>
+//         <Typography variant="h4" textAlign="center" mb={4}>
+//           Explore Events
+//         </Typography>
+
+//         <Box
+//           sx={{
+//             display: "flex",
+//             flexWrap: "wrap",
+//             gap: 4,
+//             justifyContent: "center",
+//           }}
+//         >
+//           {events.map((event) => (
+//             <EventCard
+//               key={event._id}
+//               event={event}
+//               onView={(id) => setModalEventId(id)} // ✅ open modal
+//             />
+//           ))}
+//         </Box>
+//       </Box>
+
+//       {/* ✅ MODAL */}
+//       <EventDetailsModal
+//         open={!!modalEventId}
+//         eventId={modalEventId}
+//         handleClose={() => setModalEventId(null)}
+//         onRegister={(id) => setSelectedEventId(id)} // ✅ trigger form
+//       />
+
+//       {/* ✅ FORM BELOW EVENTS */}
+//       {selectedEventId && (
+//         <Box sx={{ px: 3, pb: 5 }}>
+//           <ParticipantForm eventId={selectedEventId} />
+//         </Box>
+//       )}
+
+//       <Footer />
+//     </>
+//   );
+// }
+
+import { Typography, Box } from "@mui/material";
 import Navbar from "../Component/Navbar";
-import bgImage from "../assets/Roobaroo.jpeg";
 import Footer from "../Component/Footer";
+import { useEffect, useState, useRef } from "react";
+import axios from "axios";
+import EventCard from "../Component/EventCard";
+import EventDetailsModal from "../Component/EventDetailsModel";
+import ParticipantForm from "../Component/ParticipantForm";
 
 export default function Homepage() {
+  const [events, setEvents] = useState([]);
+  const [selectedEventId, setSelectedEventId] = useState(null);
+  const [modalEventId, setModalEventId] = useState(null);
+
+  const formRef = useRef(null); // ✅ scroll ref
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  const fetchEvents = async () => {
+    const token = localStorage.getItem("token");
+    const res = await axios.get("http://localhost:5000/api/events", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    setEvents(res.data);
+  };
+
+  // ✅ REGISTER HANDLER WITH SCROLL
+  const handleRegister = (id) => {
+    setSelectedEventId(id);
+
+    setTimeout(() => {
+      formRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 200);
+  };
+
   return (
     <>
       <Navbar />
 
-      {/* Hero Section */}
-      <Box
-        sx={{
-          height: "90vh",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          textAlign: "center",
-          // Gradient Background
-          background:
-            "linear-gradient(180deg, #F5E6CC 0%, #DDB892 45%, #B6AD90 100%)",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        {/* Soft Background Glow */}
-        <Box
-          sx={{
-            position: "absolute",
-            width: "500px",
-            height: "500px",
-            background:
-              "radial-gradient(circle, rgba(201,107,44,0.18) 0%, rgba(255,255,255,0) 70%)",
-            top: "-120px",
-            right: "-100px",
-            borderRadius: "50%",
-          }}
-        />
-        <Box
-          sx={{
-            position: "absolute",
-
-            // Adjust Size
-            width: "1500px",
-            height: "800px",
-
-            // Image
-            backgroundImage: `url(${bgImage})`,
-
-            backgroundSize: "cover",
-            // backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            // Transparency / Opacity
-            opacity: 0.18,
-            // Optional Blur
-            // filter: "blur(1px)",
-            // Position Behind Text
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            zIndex: 1,
-            // Optional Rounded Shape
-            borderRadius: "25px",
-          }}
-        />
-
-        {/* Hero Heading */}
-        <Typography
-          variant="h3"
-          gutterBottom
-          sx={{
-            fontFamily: "'Times New Roman', serif",
-            fontWeight: 700,
-            color: "#7F4F24",
-            //WebkitTextStroke: "1px white",
-            letterSpacing: "1px",
-            //textShadow: "2px 2px 10px rgba(0,0,0,0.15)",
-            maxWidth: "900px",
-            px: 2,
-            zIndex: 2,
-          }}
-        >
-          RooBaRoo — Where Every Moment Becomes a Memory
-        </Typography>
-
-        {/* Subtitle */}
-        <Typography
-          variant="h6"
-          sx={{
-            fontFamily: "Times New Roman",
-            color: "#F5E6CC",
-            maxWidth: "800px",
-            mt: 1,
-            mb: 6,
-            lineHeight: 1.8,
-            letterSpacing: "1px",
-            zIndex: 1,
-          }}
-        >
-          Celebrate culture, creativity, and unforgettable experiences through
-          the spirit of Roobaroo.
-        </Typography>
-
-        {/* Button
-        <Button
-          variant="contained"
-          size="large"
-          sx={{
-            mt: 2,
-            background:
-              "linear-gradient(135deg, #936639 0%, #7F4F24 100%)",
-            color: "#F5E6CC",
-            px: 5,
-            py: 1.6,
-            borderRadius: "35px",
-            fontWeight: 700,
-            fontSize: "1rem",
-            letterSpacing: "1px",
-            boxShadow: "0 6px 20px rgba(0,0,0,0.2)",
-            transition: "all 0.3s ease",
-            zIndex: 2,
-            "&:hover": {
-              transform: "translateY(-3px)",
-              boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
-              background:
-                "linear-gradient(135deg, #7F4F24 0%, #582F0E 100%)",
-            },
-          }}
-        >
+      {/* EVENTS */}
+      <Box sx={{ p: 5 }}>
+        <Typography variant="h4" textAlign="center" mb={4}>
           Explore Events
-        </Button> */}
+        </Typography>
+
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 4,
+            justifyContent: "center",
+          }}
+        >
+          {events.map((event) => (
+            <EventCard
+              key={event._id}
+              event={event}
+              onView={(id) => setModalEventId(id)}
+            />
+          ))}
+        </Box>
       </Box>
+
+      {/* MODAL */}
+      <EventDetailsModal
+        open={!!modalEventId}
+        eventId={modalEventId}
+        handleClose={() => setModalEventId(null)}
+        onRegister={handleRegister} // ✅ IMPORTANT
+      />
+
+      {/* FORM */}
+      {selectedEventId && (
+        <Box ref={formRef} sx={{ px: 3, pb: 5 }}>
+          <ParticipantForm eventId={selectedEventId} />
+        </Box>
+      )}
+
       <Footer />
     </>
   );
