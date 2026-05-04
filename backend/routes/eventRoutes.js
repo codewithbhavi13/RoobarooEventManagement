@@ -1,4 +1,5 @@
 import express from "express";
+import { updateFee } from "../controllers/eventController.js";
 import {
   createEvent,
   getEvents,
@@ -40,6 +41,7 @@ router.post(
 router.post("/req-accepted", auth, allowRoles("admin"), acceptEventHeadReq);
 
 router.post("/add-rule", auth, allowRoles("event_head"), addRule);
+router.post("/update-fee", auth, allowRoles("event_head"), updateFee);
 router.post(
   "/announcement/create",
   auth,

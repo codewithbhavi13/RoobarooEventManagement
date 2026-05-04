@@ -12,10 +12,15 @@ import {
   Event,
   Assignment,
   Notifications,
+  Rule,
+  Group,
+  Task,
+  Star,
 } from "@mui/icons-material";
 
 import { useNavigate, useLocation } from "react-router-dom";
-export default function Sidebar() {
+
+export default function Sidebar({ isHead }) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -23,6 +28,32 @@ export default function Sidebar() {
     { name: "Dashboard", path: "/member", icon: <Dashboard /> },
     { name: "Events", path: "/member/events", icon: <Event /> },
     { name: "My Requests", path: "/member/requests", icon: <Assignment /> },
+
+    // ⭐ EVENT HEAD MENU
+    ...(isHead
+      ? [
+          {
+            name: "Rules & Fees",
+            path: "/member/manage/rules",
+            icon: <Rule />,
+          },
+          {
+            name: "Participants",
+            path: "/member/manage/participants",
+            icon: <Group />,
+          },
+          {
+            name: "Tasks",
+            path: "/member/manage/tasks",
+            icon: <Task />,
+          },
+          {
+            name: "Requirements",
+            path: "/member/manage/requirements",
+            icon: <Star />,
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -33,10 +64,10 @@ export default function Sidebar() {
         background: "#582F0E",
         color: "#F5E6CC",
         p: 2,
-        position: "relative", // ✅ IMPORTANT
+        position: "relative",
       }}
     >
-      {/* 🔔 NOTIFICATION ICON (TOP RIGHT) */}
+      {/* 🔔 NOTIFICATION ICON */}
       <Box
         sx={{
           position: "absolute",
@@ -44,7 +75,7 @@ export default function Sidebar() {
           right: 15,
           cursor: "pointer",
         }}
-        onClick={() => navigate("/member/announcements")}
+        onClick={() => navigate("/member/notification")} // ✅ FIXED
       >
         <Notifications
           sx={{
@@ -54,7 +85,6 @@ export default function Sidebar() {
               color: "#DDB892",
               transform: "scale(1.1)",
             },
-            transition: "0.3s",
           }}
         />
       </Box>
@@ -84,7 +114,6 @@ export default function Sidebar() {
                 borderRadius: "10px",
                 mb: 1,
                 px: 2,
-                transition: "0.3s",
                 background: active ? "#936639" : "transparent",
                 borderLeft: active
                   ? "4px solid #F5E6CC"
