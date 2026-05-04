@@ -61,7 +61,7 @@ const roleToCommittee = {
 
 export const acceptReqForCommitteeHead = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId, ans } = req.body;
 
     // 1. Get user
     const user = await User.findById(userId);
@@ -76,22 +76,40 @@ export const acceptReqForCommitteeHead = async (req, res) => {
       });
     }
 
+    // 🔥 NEW: If rejected → just clear req
+    if (ans === false) {
+      user.req = undefined;
+      await user.save();
+
+      return res.status(200).json({
+        message: "Request rejected successfully",
+        user,
+      });
+    }
+
+    // If ans is not true or false
+    if (ans !== true) {
+      return res.status(400).json({
+        message: "Invalid value for ans (must be true or false)",
+      });
+    }
+
     const requestedRole = user.req;
 
-    // 3. ❗ Check if already a committee head
-    if (
-      [
-        "technical_committee_head",
-        "creativity_committee_head",
-        "socialmedia_committee_head",
-      ].includes(user.role)
-    ) {
+    // 3. Check if already a committee head
+    const committeeHeadRoles = [
+      "technical_committee_head",
+      "creativity_committee_head",
+      "socialmedia_committee_head",
+    ];
+
+    if (committeeHeadRoles.includes(user.role)) {
       return res.status(400).json({
         message: "User is already a committee head",
       });
     }
 
-    // 4. ❗ Validate committee membership
+    // 4. Validate committee membership
     const committee = roleToCommittee[requestedRole];
     if (!user.committees.includes(committee)) {
       return res.status(400).json({
@@ -122,5 +140,27 @@ export const acceptReqForCommitteeHead = async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+};
+
+export const getAllMembers = async (req, res) => {
+  try {
+    const members = await User.find(
+      {
+        role: { $nin: ["admin", "event_head"] }, // exclude both
+      },
+      "name email phone department committees role rollNo",
+    );
+
+    res.status(200).json({
+      success: true,
+      count: members.length,
+      members,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };

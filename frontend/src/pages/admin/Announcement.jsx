@@ -7,74 +7,19 @@ import {
   MenuItem,
   Grid,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
+import { useContext } from "react";
+import { EventContext } from "../../context/Event";
 
 export default function Announcement() {
-  const [announcements, setAnnouncements] = useState([]);
-  const [events, setEvents] = useState([]);
+  const { events, announcements, handleCreateAnnouncement } =
+    useContext(EventContext);
 
   const [form, setForm] = useState({
     title: "",
     message: "",
     event: "", // empty = global
   });
-
-  const token = localStorage.getItem("token");
-
-  // ✅ FETCH EVENTS (for dropdown)
-  const fetchEvents = async () => {
-    const res = await axios.get("http://localhost:5000/api/events", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    setEvents(res.data);
-  };
-
-  // ✅ FETCH ANNOUNCEMENTS
-  const fetchAnnouncements = async () => {
-    const res = await axios.get(
-      "http://localhost:5000/api/events/announcement",
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      },
-    );
-    setAnnouncements(res.data.announcements);
-  };
-
-  useEffect(() => {
-    fetchEvents();
-    fetchAnnouncements();
-  }, []);
-
-  // ✅ CREATE ANNOUNCEMENT
-  const handleCreate = async () => {
-    if (!form.title || !form.message) {
-      alert("Fill all fields");
-      return;
-    }
-
-    try {
-      await axios.post(
-        "http://localhost:5000/api/events/announcement/create",
-        {
-          title: form.title,
-          message: form.message,
-          event: form.event || null, // ✅ important
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
-
-      alert("Announcement created ✅");
-
-      setForm({ title: "", message: "", event: "" });
-
-      fetchAnnouncements();
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   return (
     <Box>
@@ -128,7 +73,10 @@ export default function Announcement() {
           variant="contained"
           fullWidth
           sx={{ mt: 2 }}
-          onClick={handleCreate}
+          onClick={() => {
+            handleCreateAnnouncement(form);
+            setForm({ title: "", message: "", event: "" });
+          }}
         >
           Create Announcement
         </Button>

@@ -101,35 +101,6 @@ export default function Homepage() {
           Celebrate culture, creativity, and unforgettable experiences through
           the spirit of Roobaroo.
         </Typography>
-
-        {/* Button
-        <Button
-          variant="contained"
-          size="large"
-          sx={{
-            mt: 2,
-            background:
-              "linear-gradient(135deg, #936639 0%, #7F4F24 100%)",
-            color: "#F5E6CC",
-            px: 5,
-            py: 1.6,
-            borderRadius: "35px",
-            fontWeight: 700,
-            fontSize: "1rem",
-            letterSpacing: "1px",
-            boxShadow: "0 6px 20px rgba(0,0,0,0.2)",
-            transition: "all 0.3s ease",
-            zIndex: 2,
-            "&:hover": {
-              transform: "translateY(-3px)",
-              boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
-              background:
-                "linear-gradient(135deg, #7F4F24 0%, #582F0E 100%)",
-            },
-          }}
-        >
-          Explore Events
-        </Button> */}
       </Box>
       <Footer />
     </>

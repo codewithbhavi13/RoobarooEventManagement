@@ -20,7 +20,7 @@ import {
 
 import { useNavigate, useLocation } from "react-router-dom";
 
-export default function Sidebar({ isHead }) {
+export default function Sidebar({ role }) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -28,9 +28,10 @@ export default function Sidebar({ isHead }) {
     { name: "Dashboard", path: "/member", icon: <Dashboard /> },
     { name: "Events", path: "/member/events", icon: <Event /> },
     { name: "My Requests", path: "/member/requests", icon: <Assignment /> },
+    { name: "Committees", path: "/member/committees", icon: <Group /> },
 
     // ⭐ EVENT HEAD MENU
-    ...(isHead
+    ...(role == "team_head"
       ? [
           {
             name: "Rules & Fees",

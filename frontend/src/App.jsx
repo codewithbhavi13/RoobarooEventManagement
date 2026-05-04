@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 // import Login from "./pages/Login";
 // import Admin from "./pages/Admin";
 import Head from "./pages/Head";
@@ -24,9 +24,18 @@ import Ruleshead from "./pages/member/Rules";
 import Participantshead from "./pages/member/Participants";
 import Taskshead from "./pages/member/Tasks";
 import Requirementshead from "./pages/member/Requirements";
+import { useContext, useEffect } from "react";
+import { UserContext } from "./context/User";
 function App() {
+  const navigate = useNavigate();
+  const { isLogin } = useContext(UserContext);
+  useEffect(() => {
+    if (!isLogin) navigate("/login");
+    console.log(isLogin);
+  }, [isLogin, navigate]);
   return (
     <>
+      <button onClick={() => alert("clicked")}> button </button>
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/login" element={<Login />} />
@@ -47,6 +56,7 @@ function App() {
           <Route path="events" element={<MemberEvent />} />
           <Route path="requests" element={<MyRequests />} />
           <Route path="notification" element={<MemberAnnouncement />} />
+          <Route path="committees" element={<Committees />} />
           {/* ⭐ EVENT HEAD ROUTES */}
           <Route path="manage/rules" element={<Ruleshead />} />
           <Route path="manage/participants" element={<Participantshead />} />

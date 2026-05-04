@@ -4,6 +4,7 @@ import { auth } from "../middleware/authMiddleware.js";
 import { allowRoles } from "../middleware/roleMiddleware.js";
 import {
   acceptReqForCommitteeHead,
+  getAllMembers,
   requestForCommitteeHead,
 } from "../controllers/committeeController.js";
 import Roles from "../enum/Roles.js";
@@ -23,5 +24,7 @@ router.post(
   allowRoles(Roles.ADMIN),
   acceptReqForCommitteeHead,
 );
+
+router.get("/get-members", auth, getAllMembers);
 
 export default router;
