@@ -85,13 +85,13 @@ export const joinEvent = async (req, res) => {
   }
 };
 
-// GET SINGLE EVENT
 export const getEventById = async (req, res) => {
   try {
-    const event = await Event.findById(req.params.id).populate(
-      "participants",
-      "name email",
-    );
+    const event = await Event.findById(req.params.id)
+      .populate("createdBy", "name role") // same as getEvents
+      .populate("req", "name email") // ✅ ADD THIS (you missed it)
+      .populate("head", "name")
+      .populate("participants", "name email");
 
     if (!event) {
       return res.status(404).json({ message: "Event not found" });
@@ -269,7 +269,36 @@ export const addRule = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+export const uploadEventImage = async (req, res) => {
+  try {
+    const { eventId } = req.body;
+    const { id: userId } = req.user;
 
+    const event = await Event.findOne({
+      _id: eventId,
+      head: userId,
+    });
+
+    if (!event) {
+      return res.status(403).json({
+        message: "Not authorized",
+      });
+    }
+
+    // ✅ multer file
+    const imagePath = req.file ? req.file.path : "";
+
+    event.image = imagePath;
+    await event.save();
+
+    res.json({
+      message: "Image uploaded successfully",
+      image: event.image,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 export const createAnnouncement = async (req, res) => {
   try {
     const { title, message, eventId } = req.body;

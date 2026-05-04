@@ -247,7 +247,6 @@ export default function EventDetailsModal({
 
         <Typography>📅 {event.date?.slice(0, 10)}</Typography>
         <Typography>💰 ₹{event.entryFee}</Typography>
-        <Typography>📍 {event.venue}</Typography>
 
         {event.head && (
           <Typography mt={2}>⭐ Head: {event.head.name}</Typography>

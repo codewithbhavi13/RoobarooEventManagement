@@ -11,10 +11,11 @@ import {
   createAnnouncement,
   getAllAnnouncements,
 } from "../controllers/eventController.js";
-
+import { uploadEventImage } from "../controllers/eventController.js";
 import { auth } from "../middleware/authMiddleware.js";
 import { allowRoles } from "../middleware/roleMiddleware.js";
 
+import { eventUpload } from "../middleware/upload.js";
 const router = express.Router();
 
 // CREATE EVENT → only admin + head
@@ -42,6 +43,13 @@ router.post("/req-accepted", auth, allowRoles("admin"), acceptEventHeadReq);
 
 router.post("/add-rule", auth, allowRoles("event_head"), addRule);
 router.post("/update-fee", auth, allowRoles("event_head"), updateFee);
+router.post(
+  "/upload-image",
+  auth,
+  allowRoles("event_head"),
+  eventUpload,
+  uploadEventImage,
+);
 router.post(
   "/announcement/create",
   auth,

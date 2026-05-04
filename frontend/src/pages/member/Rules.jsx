@@ -1,130 +1,3 @@
-// import {
-//   Box,
-//   Typography,
-//   TextField,
-//   Button,
-//   Paper,
-//   List,
-//   ListItem,
-//   IconButton,
-// } from "@mui/material";
-
-// import { Delete, Add } from "@mui/icons-material";
-// import { useState } from "react";
-
-// export default function Rules() {
-//   const [ruleInput, setRuleInput] = useState("");
-//   const [fee, setFee] = useState("");
-//   const [rules, setRules] = useState([]);
-
-//   const handleAddRule = () => {
-//     if (!ruleInput) return;
-//     setRules([...rules, ruleInput]);
-//     setRuleInput("");
-//   };
-
-//   const handleDelete = (index) => {
-//     const updated = rules.filter((_, i) => i !== index);
-//     setRules(updated);
-//   };
-
-//   return (
-//     <Box>
-//       {/* HEADER */}
-//       <Typography variant="h4" fontWeight={800} mb={3} color="#3A2D1E">
-//         Rules & Entry Fees
-//       </Typography>
-
-//       {/* ADD SECTION */}
-//       <Paper
-//         sx={{
-//           p: 3,
-//           borderRadius: "20px",
-//           mb: 4,
-//           background: "#FDFCFB",
-//           boxShadow: "0 8px 20px rgba(0,0,0,0.05)",
-//         }}
-//       >
-//         <Typography fontWeight={700} mb={2}>
-//           Add Rule
-//         </Typography>
-
-//         <Box sx={{ display: "flex", gap: 2 }}>
-//           <TextField
-//             fullWidth
-//             label="Enter Rule"
-//             value={ruleInput}
-//             onChange={(e) => setRuleInput(e.target.value)}
-//           />
-
-//           <Button
-//             variant="contained"
-//             onClick={handleAddRule}
-//             sx={{
-//               bgcolor: "#7F4F24",
-//               "&:hover": { bgcolor: "#582F0E" },
-//               borderRadius: "10px",
-//             }}
-//           >
-//             <Add />
-//           </Button>
-//         </Box>
-
-//         {/* ENTRY FEE */}
-//         <Box mt={3}>
-//           <Typography fontWeight={700} mb={1}>
-//             Entry Fee
-//           </Typography>
-
-//           <TextField
-//             fullWidth
-//             label="Enter Fee (₹)"
-//             value={fee}
-//             onChange={(e) => setFee(e.target.value)}
-//           />
-//         </Box>
-//       </Paper>
-
-//       {/* RULES LIST */}
-//       <Paper
-//         sx={{
-//           p: 3,
-//           borderRadius: "20px",
-//           background: "#fff",
-//           boxShadow: "0 8px 20px rgba(0,0,0,0.05)",
-//         }}
-//       >
-//         <Typography fontWeight={700} mb={2}>
-//           Rules List
-//         </Typography>
-
-//         {rules.length === 0 ? (
-//           <Typography color="text.secondary">No rules added yet</Typography>
-//         ) : (
-//           <List>
-//             {rules.map((rule, index) => (
-//               <ListItem
-//                 key={index}
-//                 sx={{
-//                   display: "flex",
-//                   justifyContent: "space-between",
-//                   borderBottom: "1px solid #eee",
-//                 }}
-//               >
-//                 <Typography>{rule}</Typography>
-
-//                 <IconButton onClick={() => handleDelete(index)}>
-//                   <Delete />
-//                 </IconButton>
-//               </ListItem>
-//             ))}
-//           </List>
-//         )}
-//       </Paper>
-//     </Box>
-//   );
-// }
-
 import {
   Box,
   Typography,
@@ -133,10 +6,9 @@ import {
   Paper,
   List,
   ListItem,
-  IconButton,
 } from "@mui/material";
 
-import { Delete, Add } from "@mui/icons-material";
+import { Add } from "@mui/icons-material";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -145,6 +17,7 @@ export default function Rules() {
   const [fee, setFee] = useState("");
   const [rules, setRules] = useState([]);
   const [eventId, setEventId] = useState("");
+  const [image, setImage] = useState(null); // ✅ NEW
 
   const token = localStorage.getItem("token");
 
@@ -212,13 +85,39 @@ export default function Rules() {
     }
   };
 
+  // ✅ UPLOAD IMAGE
+  const handleUploadImage = async () => {
+    if (!image) return alert("Select image");
+
+    const formData = new FormData();
+    formData.append("image", image); // 🔥 MUST match multer
+    formData.append("eventId", eventId);
+
+    try {
+      await axios.post(
+        "http://localhost:5000/api/events/upload-image",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+
+      alert("Image uploaded ✅");
+    } catch (err) {
+      console.error(err.response?.data || err.message);
+    }
+  };
+
   return (
     <Box>
       <Typography variant="h4" fontWeight={800} mb={3}>
         Rules & Entry Fees
       </Typography>
 
-      {/* ADD RULE */}
+      {/* ADD RULE + IMAGE */}
       <Paper sx={{ p: 3, mb: 4, borderRadius: "20px" }}>
         <Typography fontWeight={700} mb={2}>
           Add Rule
@@ -254,6 +153,30 @@ export default function Rules() {
               Save
             </Button>
           </Box>
+        </Box>
+
+        {/* 🔥 IMAGE UPLOAD */}
+        <Box mt={3}>
+          <Typography fontWeight={700} mb={1}>
+            Upload Event Poster
+          </Typography>
+
+          <Button variant="outlined" component="label">
+            Choose Image
+            <input
+              hidden
+              type="file"
+              onChange={(e) => setImage(e.target.files[0])}
+            />
+          </Button>
+
+          <Button
+            variant="contained"
+            sx={{ ml: 2 }}
+            onClick={handleUploadImage}
+          >
+            Upload Image
+          </Button>
         </Box>
       </Paper>
 
